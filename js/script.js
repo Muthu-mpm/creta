@@ -1,9 +1,17 @@
-const password = "creta2024#";
-let input = prompt("please enter the password");
-while (input !== password) {
-  input = prompt("please enter the password");
-}
+// const password = "creta2024#";
+// let input = prompt("please enter the password");
+// while (input !== password) {
+//   input = prompt("please enter the password");
+// }
 // data layer
+function getDevicePlatform() {
+  const platform = navigator.platform || "Unknown";
+  return platform.toUpperCase();
+}
+function getUtmParameter(param) {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(param);
+}
 
 function getGAClientId() {
   try {
@@ -59,6 +67,25 @@ function dataLayerFunc(e) {
   });
   console.log("Data Layer event pushed:", window.dataLayer);
 
+  // Navigate to the intended link
+  const href = e.currentTarget.getAttribute("href");
+  window.open(href, "_blank");
+}
+
+function brochureDownload(e) {
+  e.preventDefault();
+  window.VWO = window.VWO || [];
+  VWO.event =
+    VWO.event ||
+    function () {
+      VWO.push(["event"].concat([].slice.call(arguments)));
+    };
+
+  VWO.event("download_e-brochure", {
+    model_name: "creta_electric",
+    url_location: window.location.href,
+  });
+  console.log("download_e-brochure event pushed:", window.VWO);
   // Navigate to the intended link
   const href = e.currentTarget.getAttribute("href");
   window.open(href, "_blank");
