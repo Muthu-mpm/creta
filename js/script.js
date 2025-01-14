@@ -3,6 +3,8 @@
 // while (input !== password) {
 //   input = prompt("please enter the password");
 // }
+let deductor = window.innerWidth < 768 ? 250 : 100;
+
 // data layer
 function getDevicePlatform() {
   const platform = navigator.platform || "Unknown";
@@ -105,4 +107,31 @@ $(document).ready(function () {
   setTimeout(() => {
     $("div#root").addClass("onScreen");
   }, 2200);
+
+  function setSectionContainerTop(i) {
+    $(".parallax-breakpoint").each(function (e, t) {
+      const n = $(t),
+        s =
+          i -
+          n.outerHeight() -
+          document.querySelector(".bottom-tag-wrapper").clientHeight -
+          document.querySelector(".header-wrapper").clientHeight -
+          deductor;
+      e > 0 && n.css({ top: s, "z-index": e + 10 });
+    });
+  }
+
+  window.addEventListener("scroll", function () {
+    console.log("scroed");
+
+    const n = $(window).innerHeight();
+    setSectionContainerTop(n);
+  });
+
+  const handleResize = () => {
+    deductor = window.innerWidth < 768 ? 250 : 100;
+  };
+
+  handleResize();
+  window.addEventListener("resize", handleResize);
 });
